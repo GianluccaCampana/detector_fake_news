@@ -73,8 +73,6 @@
 </header>
 
 <body>
-    
-
 
     <!--caso já exista sessão-->
     {% if session['id']  %}
@@ -105,7 +103,7 @@
         <div class="card" style="margin: 35px;">
           
           <div style="margin: 4%; border-radius: 5px;;" >
-            {{msg}}
+            {{msg}} FAKE
             <i class="glyphicon glyphicon-cloud"></i>
           </div>
           
@@ -115,8 +113,7 @@
       <div class="card" style="margin: 35px;">
           
         <div style="margin: 4%; border-radius: 5px;;" >
-         
-          {{msg}}
+          {{msg}} TRUE
           <i class="glyphicon glyphicon-cloud"></i>
         </div>
         
