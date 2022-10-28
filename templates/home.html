@@ -108,7 +108,7 @@
           </div>
           
         </div>
-      {%else %}
+      {%elif resultado == "TRUE" %}
       
       <div class="card" style="margin: 35px;">
           
@@ -118,6 +118,16 @@
         </div>
         
       </div>
+      {%elif msg == "notícia não está em língua portuguesa" %}
+      
+      <script>
+        alert("Notícia não está em língua portuguesa")
+      </script>
+      {%elif msg == "notícia com menos de 50 caracteres" %}
+      
+      <script>
+        alert("notícia com menos de 50 caracteres")
+      </script>
 
       {% endif %}
 

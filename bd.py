@@ -108,7 +108,7 @@ def historicoBD():
     #Conectando ao banco
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     id_usuario = session.get('id')
-    cursor.execute('SELECT substring(noticia, 1, 50) AS "titulo", noticia, resultado, data_analise FROM noticia WHERE id_usuario = % s ORDER BY data_analise desc',(id_usuario, ))
+    cursor.execute('SELECT id_noticia,substring(noticia, 1, 50) AS "titulo", noticia, resultado, data_analise FROM noticia WHERE id_usuario = % s ORDER BY data_analise desc',(id_usuario, ))
     resultado = cursor.fetchall()
     cursor.close() #fechar conexão com o banco
     return  resultado
