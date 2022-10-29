@@ -33,8 +33,16 @@ def validacaoVardadeiraOUFalsa(regressaoLog, svm, mlp):
         return '2 dos 3 algoritmos indentificarão a notícia como verdadeira, mas faça uma pesquisa antes de divulgar ela'
     elif regressaoLog == 'FAKE' and  svm == 'TRUE' and mlp == 'TRUE':
         return '2 dos 3 algoritmos indentificarão a notícia como verdadeira, mas faça uma pesquisa antes de divulgar ela'
+    #Lógica para as falsas
+    elif regressaoLog == 'FAKE' and  svm == 'FAKE' and mlp == 'FAKE':
+        return 'Todos os 3 algoritmos indentificarão a notícia como falsa, mas faça uma pesquisa antes de divulgar ela'
+    elif regressaoLog == 'FAKE' and  svm == 'FAKE' and mlp == 'TRUE':
+        return '2 dos 3 algoritmos (Regressção logística e SVM ) indentificarão a notícia como falsa, mas faça uma pesquisa antes de divulgar ela'
+    elif regressaoLog == 'FAKE' and  svm == 'TRUE' and mlp == 'FAKE':
+        return '2 dos 3 algoritmos (Regressão logística e MLP) indentificarão a notícia como falsa, mas faça uma pesquisa antes de divulgar ela'
     else:
-        return 'Pelo menos 2 dos algoritmos indentificarão a notícia como falsa, mas faça uma pesquisa antes de divulgar ela'
+        return '2 dos 3 algoritmos (SVM e MLP) indentificarão a notícia como falsa, mas faça uma pesquisa antes de divulgar ela'
+   
 
 def validacaoVardadeiraOUFalsaParaBD(regressaoLog, svm, mlp):
     if regressaoLog == 'TRUE' and  svm == 'TRUE' and mlp == 'TRUE':

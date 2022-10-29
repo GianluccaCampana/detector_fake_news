@@ -93,9 +93,9 @@
                 </thead>
                 <tbody>
                   {%for linhas in resultado%}
-                  <tr data-toggle="collapse" data-target="#collapse{{linhas.id_noticia}}" aria-expanded="true" aria-controls= "collapse{{linhas.id_noticia}}">
+                  <tr data-toggle="collapse" data-target="#collapse{{linhas.id_noticia}}"  aria-expanded="TRUE" aria-controls= "collapse{{linhas.id_noticia}}">
   
-                    <th scope="row">{{linhas.titulo}} {{linhas.id_noticia}} </th>
+                    <th scope="row">{{linhas.titulo}} </th>
                     {%if linhas.resultado == "TRUE"%}
                       <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
                         <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
@@ -111,8 +111,8 @@
                       <i class="fa" aria-hidden="false"></i>
                     </td>
                   </tr>
-                  <tr>
-                    <td colspan="6" id="collapse{{linhas.id_noticia}}" class="collapse show acc" data-parent="#accordion">
+                  <tr class="hide-table-padding">
+                    <td colspan="6" id="collapse{{linhas.id_noticia}}" class="collapse"  data-parent="#accordion">
                       <p>{{linhas.noticia}}</p>
                     </td>
                   </tr>

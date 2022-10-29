@@ -35,16 +35,17 @@ ps = PorterStemmer()
 
 #preprpocessamento e predição do texto
 def tamanho(noticia):
-    if len(noticia) < 50:
+    if len(noticia.split()) < 50:
         return False
     return True
 def predicaoRegressãoLogistica(text):
     portugues = nltk.corpus.stopwords.words('portuguese')
-    preprocessando = unidecode.unidecode(text) # retirando  pontuações
+    preprocessando = unidecode.unidecode(text) # retirando potuações
     preprocessando = re.sub('[^a-zA-Z]', ' ', preprocessando) # Se tiver algo diferente de palavras, ele ira preencher com espaco em branco
     preprocessando = preprocessando.lower() # deixando tudo em minúcuslo
     preprocessando = preprocessando.split() # Separa a frase em uma lista de sentencas. 
-    preprocessando = [ps.stem(word) for word in preprocessando if not word in portugues ] # retirando stopwords
+    preprocessando = [ps.stem(word) for word in preprocessando if not word in portugues ] # Aplica o porter stemmer nessas palavras
+    preprocessando = [item for item in preprocessando if item not in portugues]
     preprocessando = ' '.join(preprocessando) # deixando novamente em frases
     preprocessando_vect = tfidfvect.transform([preprocessando]).toarray()
     predicao = 'FAKE' if regressaoLogistica.predict(preprocessando_vect) == 'fake' else 'TRUE' 
@@ -57,6 +58,7 @@ def predicaoSVM(text):
     preprocessando = preprocessando.lower() # deixando tudo em minúcuslo
     preprocessando = preprocessando.split() # Separa a frase em uma lista de sentencas. 
     preprocessando = [ps.stem(word) for word in preprocessando if not word in portugues ] # retirando stopwords
+    preprocessando = [item for item in preprocessando if item not in portugues]
     preprocessando = ' '.join(preprocessando) # deixando novamente em frases
     preprocessando_vect = tfidfvect.transform([preprocessando]).toarray()
     predicao = 'FAKE' if svm.predict(preprocessando_vect) == 'fake' else 'TRUE' 
@@ -64,11 +66,12 @@ def predicaoSVM(text):
 
 def predicaoMLP(text):
     portugues = nltk.corpus.stopwords.words('portuguese')
-    preprocessando = unidecode.unidecode(text) # retirando pontiações
+    preprocessando = unidecode.unidecode(text) # retirando potuações
     preprocessando = re.sub('[^a-zA-Z]', ' ', preprocessando) # Se tiver algo diferente de palavras, ele ira preencher com espaco em branco
     preprocessando = preprocessando.lower() # deixando tudo em minúcuslo
     preprocessando = preprocessando.split() # Separa a frase em uma lista de sentencas. 
     preprocessando = [ps.stem(word) for word in preprocessando if not word in portugues ] # retirando stopwords
+    preprocessando = [item for item in preprocessando if item not in portugues]
     preprocessando = ' '.join(preprocessando) # deixando novamente em frases
     preprocessando_vect = tfidfvect.transform([preprocessando]).toarray()
     predicao = 'FAKE' if mlp.predict(preprocessando_vect) == 'fake' else 'TRUE' 
