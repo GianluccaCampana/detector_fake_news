@@ -6,27 +6,32 @@ from flask import Flask, render_template, session, request, redirect, url_for
 # urk_for chama as funções definidas
 
 #imports das valicações de campos
-from validacao import idioma
-from validacao import validacaoSenha
-from validacao import validaçãoNome
-from validacao import  validacaoVardadeiraOUFalsa
-from validacao import  validacaoVardadeiraOUFalsaParaBD
+from  model.validacao import idioma
+from  model.validacao import validacaoSenha
+from  model.validacao import validaçãoNome
+from  model.validacao import  validacaoVardadeiraOUFalsa
+from  model.validacao import  validacaoVardadeiraOUFalsaParaBD
 
 #imports para os comando do banco de dados
-from bd import verificaCadastro
-from bd import cadastrado
-from bd import loginBD
-from bd import alterarEmail
-from bd import alteraSenha
-from bd import deletar
-from bd import historicoBD
-from bd import salvandoNoticia
+from model.bd import verificaCadastro
+from model.bd import cadastrado
+from model.bd import loginBD
+from model.bd import alterarEmail
+from model.bd import alteraSenha
+from model.bd import deletar
+from model.bd import historicoBD
+from model.bd import salvandoNoticia
+from model.bd import esqueceuSenha
 
 #importe para predicao
-from predicao import predicaoRegressãoLogistica
-from predicao import predicaoSVM
-from predicao import predicaoMLP
-from predicao import tamanho
+from model.predicao import predicaoRegressãoLogistica
+from model.predicao import predicaoSVM
+from model.predicao import predicaoMLP
+from model.predicao import tamanho
+
+#importe de e-mail
+from model.envioEmail import enviar_email
+
 #Conexão ao banco
 from flask_mysqldb import MySQL 
 import MySQLdb.cursors 
@@ -57,7 +62,7 @@ def home():
 @app.route("/cadastro", methods=['POST', 'GET'])
 def cadastro():
     msg=''
-    if(session):       
+    if(session.get('loggedin') == True):       
        return render_template("home.html")
     elif request.method == 'POST':        
         #criando variáveis e pegando valores do for
@@ -84,7 +89,7 @@ def cadastro():
 def login():
     msg = '' 
     #verificando se há sessão
-    if(session):
+    if(session.get('loggedin') == True):
        return render_template("home.html")    
     elif request.method == 'POST':
         #criando variáveis pelo form 
@@ -99,15 +104,15 @@ def login():
 
 @app.route("/alterarEmail", methods=['POST', 'GET'])
 def alterar_email():
-    if(not session):
+    if(session.get('loggedin') == False):
         return render_template('home.html')
     #criando variáveis pelo form
     elif request.method == 'POST':
         emailSession = session.get('email')
         emailAtual = request.form['emailAntigo']    
         emailNovo = request.form['emailNovo']
-        #Conectando ao banco
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+       
+       
         if emailAtual and emailNovo: #verifica se os campos foram digitados           
             if alterarEmail(emailSession, emailAtual, emailNovo):
                 msg = 'E-mail alterado com sucesso'
@@ -119,7 +124,7 @@ def alterar_email():
 
 @app.route("/alterarSenha", methods=['POST', 'GET'])
 def alterar_senha():
-    if(not session):
+    if(session.get('loggedin') == False):
         return render_template('home.html')
     #criando variáveis pelo form
     elif request.method == 'POST':
@@ -139,7 +144,7 @@ def alterar_senha():
 
 @app.route("/deletar", methods=['POST', 'GET'])
 def deletar():
-    if(not session):
+    if(session.get('loggedin') == False):
         return render_template('home.html')
     #criando variáveis pelo form
     elif request.method == 'POST':
@@ -159,12 +164,10 @@ def deletar():
 @app.route("/historico", methods=['POST', 'GET'])
 def historico():
     
-    if(session):
+    if(session.get('loggedin') == True):
                      
             return  render_template("historico.html", resultado = historicoBD(), usuario=session.get('nome'))
     return render_template("home.html")
-
-
 
 @app.route('/sair', methods=['POST', 'GET'])
 def sair_sessao():          
@@ -174,37 +177,39 @@ def sair_sessao():
     session.pop('email', None)
     session.pop('senha', None)
     session.pop('idEnvio', None)
-    session.pop('email', None)     
+    session.pop('email', None)
+    session.pop('ativo', None) #  saindo da sessão     
     return redirect(url_for('login'))
 
 @app.route('/esqueceu_senha', methods=['POST', 'GET'])
 def esqueceu_senha():     
-    if(session):
+    if(session.get('loggedin') == True):
         return redirect(url_for('home'))
     if request.method == 'POST':
         #capturando dados do form
         emailCadastrado = request.form['emailCadastrado']
-        nomeCadastrado = request.form['nomeCadastrado']
-        senhaNovaCadastrada = request.form['senhaNovaCadastrada']
-        #Conectando ao banco
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        #Verificando cadastro pelo e-mail e senha
-        cursor.execute('SELECT * FROM usuario WHERE email = % s AND nome = % s', (emailCadastrado, nomeCadastrado )) 
-        account = cursor.fetchone()  #Capturando o primeiro resultado
-        if account: # se existir 
-            if validacaoSenha(senhaNovaCadastrada)==False:
-                msg="Senha não atende os requisitos mínimos"
-                cursor.close() #fechando conexão
-                return render_template('alterar_senha.html', msg=msg, usuario=session.get('nome'))               
-            cursor.execute('UPDATE usuario SET senha = % s WHERE email= % s AND nome = % s',(senhaNovaCadastrada, emailCadastrado, nomeCadastrado, ))
-            mysql.connection.commit() #Registra o Update
-            msg = 'Senha nova cadastrada com sucesso'
-            cursor.close() #fechando conexão
-            return render_template('esqueceu_senha.html', msg=msg)             
-        else: 
-            msg = 'Nenhuma encontrada com esse nome e e-mail'
+        #Verifica se e-mail está cadastrado
+        if verificaCadastro(emailCadastrado)== False:
+            msg = 'E-email não está cadastrado'
             return render_template('esqueceu_senha.html', msg=msg)
+        enviar_email(emailCadastrado)
+        msg = 'Verifique seu e-mail'
+        return render_template('esqueceu_senha.html', msg=msg)           
     return render_template('esqueceu_senha.html')
+
+@app.route('/mudar_senha', methods=['POST', 'GET'])
+def mudar_senha():
+   if( session.get('loggedin') == True):
+        return redirect(url_for('home'))   
+   if request.method == 'POST':
+       senhaNova = request.form['senhaNova']
+       if validacaoSenha(senhaNova) == False:
+            msg='Senha não atende aos requisitos mínimos'
+            return render_template('mudar_senha.html', msg=msg)
+       email = session.get('esqueceu')
+       esqueceuSenha(email, senhaNova)
+       return render_template('home.html') 
+   return render_template('mudar_senha.html') 
     
 @app.route('/analisando', methods=[ 'POST', 'GET'])
 def analisando():

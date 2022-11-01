@@ -3,7 +3,7 @@ from flask import Flask, session, render_template
 from flask_mysqldb import MySQL 
 import MySQLdb.cursors 
 #import de validação de senha
-from validacao import validacaoSenha
+from model.validacao import validacaoSenha
 #criptografia
 import hashlib
 
@@ -86,6 +86,17 @@ def alteraSenha(emailSession,  emailSenha, senhaSession, senhaAtual, senhaNova):
         cursor.close() #fechando conexão
         return True
     return False
+
+def esqueceuSenha(email, senhaNova):
+    senhaCriptografada = hashlib.md5(senhaNova.encode())
+     #Conectando ao banco
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('UPDATE usuario SET senha = % s WHERE email= % s',(senhaCriptografada, email, ))
+    mysql.connection.commit() #Registra o Update
+    session.pop('esqueceu', None) #  saindo da sessão
+    session.pop('ativo', None) #  saindo da sessão
+    cursor.close() #fechando conexão
+    return True
 
 def deletar(emailSession, email, senhaSession, senha):
     if emailSession == email and senhaSession == senha: #verificando se o e-mail e a senha da conta em são os mesmos que foram digiados

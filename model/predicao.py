@@ -24,10 +24,10 @@ stopwords = set(stopwords.words('portuguese'))
 
 
 # Load model and vectorizer
-regressaoLogistica = pickle.load(open('regressaoLog.pkl', 'rb'))
-svm = pickle.load(open('SVM.pkl', 'rb'))
-mlp =  pickle.load(open('MLP.pkl', 'rb'))
-tfidfvect = pickle.load(open('tfidfvect.pkl', 'rb'))
+regressaoLogistica = pickle.load(open('./pkl/regressaoLog.pkl', 'rb'))
+svm = pickle.load(open('./pkl/SVM.pkl', 'rb'))
+mlp =  pickle.load(open('./pkl/MLP.pkl', 'rb'))
+tfidfvect = pickle.load(open('./pkl/tfidfvect.pkl', 'rb'))
 
 
 ps = PorterStemmer()

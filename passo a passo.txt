@@ -1,4 +1,0 @@
-Passo a passo pré processamento
-pip install nltk
-pip install tensorflow -q
-
