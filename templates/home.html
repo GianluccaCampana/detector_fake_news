@@ -149,15 +149,18 @@
             <!--Javascript para aparecer as mensagens de validações-->
             <div id="mensagem">
                 <h3>A senha deve conter os seguintes passos:</h3>
-                <p id="minuscsula" class="invalid">A <b>letra minúscula</b> </p>
-                <p id="maiuscula" class="invalid">A <b>letra maiúscula</b> </p>
-                <p id="numero" class="invalid">A <b>número</b></p>
+                <p id="minuscsula" class="invalid">pelo menos uma <b>letra minúscula</b> </p>
+                <p id="maiuscula" class="invalid">pelo menos uma <b>letra maiúscula</b> </p>
+                <p id="numero" class="invalid">pelo menos uma <b>número</b></p>
                 <p id="tamanho" class="invalid">Mínimo <b>8 characters</b></p>
             </div>
             
             <input type="submit" value="Cadastrar" /><br>           
             <script type="text/javascript" src="{{url_for('static', filename='javacript/cadastro.js')}}"></script>
         </form>
+        
+        {{msg}}
+        
         
        
 
@@ -177,6 +180,7 @@
             E-mail: <input type="email" name="emailLogin" required/><br>
             Senha: <input type="password" name="senhaLogin" required/><br>
             <input type="submit" name="login" value="Logar">
+            {{msg}}
 
         </form> 
         <a href="{{url_for('esqueceu_senha')}}"><input type="submit" value="Esqueceu senha" /></a>  
