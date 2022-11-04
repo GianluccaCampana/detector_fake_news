@@ -69,15 +69,33 @@
 </header>
 
 <body> 
-    <form action="{{url_for('esqueceu_senha')}}" method="post">       
-       
-        Digite o e-mail cadastrado:<input type="email" id="emailCadastrado" name="emailCadastrado" /><br>
+    
+  <div class="col d-flex justify-content-center ">
+    <div class="card" style="margin-right: 3%; margin-top: 10%;">
+      <div class="card-header" style="text-align: center; background-color:#4285F4">
+      Alterar a senha
+      </div>
+      <div class="card-body">
         
-        <input type="submit" name="senhaAlteradaCadastrada" value="Alterar e-mail" /><br>
-        <script type="text/javascript" src="{{url_for('static', filename='javacript/esqueceu_senha.js')}}"></script>
-    </form>
+
+        <form action="{{url_for('esqueceu_senha')}}" method="post">       
+       
+          Digite o e-mail cadastrado:<input type="email" id="emailCadastrado" name="emailCadastrado" /><br>
+          
+          <input type="submit" name="senhaAlteradaCadastrada" value="Alterar e-mail" /><br>
+          <script type="text/javascript" src="{{url_for('static', filename='javacript/esqueceu_senha.js')}}"></script>
+      </form>
+      </div>
+    </div> 
     
-    
-    <h1>{{msg}}</h1>
+    {%if msg == "E-email não está cadastrado" %}
+    <script>
+      alert("E-email não está cadastrado")
+    </script>
+    {%elif msg == "Verifique seu e-mail" %}
+    <script>
+      alert("As instruções para redefinir sua senha foram enviadas ao seu email, verifique por favor.")
+    </script>
+    {%endif %}
 </body>
 </html>

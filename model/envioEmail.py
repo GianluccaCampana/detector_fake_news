@@ -16,7 +16,7 @@ def enviar_email(para):
     session['ativo'] = True
 
     corpo_email = """
-    <form action="http://127.0.0.1:5000/esqueceu_senha">
+    <form action="http://127.0.0.1:5000/mudar_senha">
         <p>Para alterar a senha clique no botão:
         <input type="submit" value="ir para alterar senha" />
     </form>
