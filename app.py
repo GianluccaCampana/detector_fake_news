@@ -11,6 +11,8 @@ from  model.validacao import validacaoSenha
 from  model.validacao import validaçãoNome
 from  model.validacao import  validacaoVardadeiraOUFalsa
 from  model.validacao import  validacaoVardadeiraOUFalsaParaBD
+from  model.validacao import tamanho
+from  model.validacao import senhasDiferentes
 
 #imports para os comando do banco de dados
 from model.bd import verificaCadastro
@@ -27,7 +29,7 @@ from model.bd import esqueceuSenha
 from model.predicao import predicaoRegressãoLogistica
 from model.predicao import predicaoSVM
 from model.predicao import predicaoMLP
-from model.predicao import tamanho
+
 
 #importe de e-mail
 from model.envioEmail import enviar_email
@@ -77,8 +79,8 @@ def cadastro():
             msg='Nome de usuário não pode conter números'
         elif validacaoSenha(senha)==False:
             msg='Senha não atende aos requisitos mínimos'
-        elif senha != senhaNovamente:
-            msg = 'Senha diferentes digitadas'        
+        elif senhasDiferentes(senha, senhaNovamente) == False:
+            msg = 'Senha diferentes digitadas'         
         else: 
             cadastrado(nome, email, senha)
             msg = 'Conta registrada'          
@@ -203,8 +205,12 @@ def mudar_senha():
         return redirect(url_for('home'))   
    if request.method == 'POST':
        senhaNova = request.form['senhaNova']
+       repeteSenhaNova = request.form['repeteSenhaNova']
        if validacaoSenha(senhaNova) == False:
             msg='Senha não atende aos requisitos mínimos'
+            return render_template('mudar_senha.html', msg=msg)
+       elif senhasDiferentes(senhaNova, repeteSenhaNova) == False:
+            msg = 'Senhas digitadas são diferentes'
             return render_template('mudar_senha.html', msg=msg)
        email = session.get('esqueceu')
        esqueceuSenha(email, senhaNova)
@@ -217,7 +223,7 @@ def analisando():
     # Pegando o texto dos forms
     noticia = request.form["areaNoticia"] 
     if tamanho(noticia) ==False:
-        msg='notícia com menos de 50 caracteres'
+        msg='notícia com menos de 100 palavras'
         return render_template('home.html', msg=msg)
     if idioma(noticia):
         msg='notícia não está em língua portuguesa'

@@ -4,8 +4,8 @@ from flask_mysqldb import MySQL
 import MySQLdb.cursors 
 #import de validação de senha
 from model.validacao import validacaoSenha
-#criptografia
-import hashlib
+#iport criptogradis 
+from model.criptografia import  criptografar
 
 
 
@@ -35,7 +35,7 @@ def verificaCadastro(email):
     return False
 
 def cadastrado(nome, email, senha):
-    senhaCriptografada = hashlib.md5(senha.encode())
+    senhaCriptografada = criptografar(senha)
     #conectando ao banco
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
      #executando comando de inserção
@@ -44,10 +44,11 @@ def cadastrado(nome, email, senha):
     cursor.close()
     
 def loginBD(email,senha):
+    senhaCriptografada = criptografar(senha)
     #Conectando ao banco
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     #Verificando cadastro pelo e-mail e senha
-    cursor.execute('SELECT * FROM usuario WHERE email = % s AND senha = % s', (email, senha, )) 
+    cursor.execute('SELECT * FROM usuario WHERE email = % s AND senha = % s', (email, senhaCriptografada, )) 
     account = cursor.fetchone()  #Capturando o primeiro resultado
     if account: # se existir
         #criando sessões 
@@ -88,7 +89,7 @@ def alteraSenha(emailSession,  emailSenha, senhaSession, senhaAtual, senhaNova):
     return False
 
 def esqueceuSenha(email, senhaNova):
-    senhaCriptografada = hashlib.md5(senhaNova.encode())
+    senhaCriptografada = criptografar(senhaNova)
      #Conectando ao banco
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute('UPDATE usuario SET senha = % s WHERE email= % s',(senhaCriptografada, email, ))

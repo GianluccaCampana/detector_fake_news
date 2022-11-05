@@ -28,63 +28,39 @@
       
       <tr><!--NAV BAR-->
         
-      {% if session['id']  %}
-
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary" >
-        <div class="container-fluid" >
-            <a class="navbar-brand" href="{{url_for('home')}}">HOME</a>
-            
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              
-              
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                 {{usuario}}
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{{url_for('alterar_email')}}">Alterar E-mail</a></li>
-                  <li><a class="dropdown-item" href="{{url_for('alterar_senha')}}">Alterar senha</a></li>
-                  <li><a class="dropdown-item" href="{{url_for('deletar')}}">Deletar</a></li>
-                </ul>
-              </li>
-    
-              <li class="nav-item">
-                <a class="nav-link" href="{{url_for('historico')}}">Historico</a>
-              </li>
-              
-              <li class="nav-item">
-                <a class="nav-link" href="{{url_for('sair_sessao')}}">Sair</a>
-              </li>
-              
-              
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-      </tr>
-      {% endif %}
   </table>
 </header>
     {% if   session['ativo']  %}
 
-<body> 
-    <form action="{{url_for('mudar_senha')}}" method="post">
-        Senha: <input type="password"  id="senhaNovaCadastrada" name="senhaNova" required pattern="[^\s]+$" title="Não é permitido espaços em branco" />   
-        
-        <input type="submit" name="mudarSenha" value="Atualizar senha" /><br>
-        <script type="text/javascript" src="{{url_for('static', filename='javacript/esqueceu_senha.js')}}"></script>
-    </form>
-    
-    <div id="mensagem">
-        <h3>A senha deve conter no mínimo os seguintes passos:</h3>
-        <p id="minuscsula" class="invalid">A <b>letra minúscula</b> letter</p>
-        <p id="maiuscula" class="invalid">A <b>letra maiúscula</b> letter</p>
-        <p id="numero" class="invalid">A <b>número</b></p>
-        <p id="tamanho" class="invalid">mínimo <b>8 characters</b></p>
+<body>
+  <div class="col d-flex justify-content-center ">
+    <div class="card" style="margin-right: 3%; margin-top: 10%;">
+      <div class="card-header" style="text-align: center; background-color:#4285F4">
+      Mudar senha
       </div>
-    <h1>{{msg}}</h1>
+      <div class="card-body"> 
+        <form action="{{url_for('mudar_senha')}}" method="post">
+          Senha: <input type="password"  id="senhaNovaCadastrada" name="senhaNova" required pattern="[^\s]+$" title="Não é permitido espaços em branco" /> 
+          Repita a senha: <input type="password" id="senhaCadastroNovamente" name="repeteSenhaNova" required pattern="[^\s]+$" title="Não é permitido espaços em branco" /><br>  
+        
+          <input type="submit" name="mudarSenha" value="Atualizar senha" /><br>
+          <script type="text/javascript" src="{{url_for('static', filename='javacript/esqueceu_senha.js')}}"></script>
+         </form>
+         <!--auxilio da senha-->
+         <div id="mensagem">
+          <h3>A senha deve conter no mínimo os seguintes passos:</h3>
+          <p id="minuscsula" class="invalid">A <b>letra minúscula</b> letter</p>
+          <p id="maiuscula" class="invalid">A <b>letra maiúscula</b> letter</p>
+          <p id="numero" class="invalid">A <b>número</b></p>
+          <p id="tamanho" class="invalid">mínimo <b>8 characters</b></p>
+        </div>
+
+      </div>
+      <h1>{{msg}}</h1>
+    </div> 
+    
+   
+   
     {% else %} <!--Caso não tenha sessão-->
     <h1>SESSÂO ACABOU</h1>
     {% endif %}

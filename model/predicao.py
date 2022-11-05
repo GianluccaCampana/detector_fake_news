@@ -34,10 +34,7 @@ ps = PorterStemmer()
 
 
 #preprpocessamento e predição do texto
-def tamanho(noticia):
-    if len(noticia.split()) < 50:
-        return False
-    return True
+
 def predicaoRegressãoLogistica(text):
     portugues = nltk.corpus.stopwords.words('portuguese')
     preprocessando = unidecode.unidecode(text) # retirando potuações

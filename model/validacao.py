@@ -55,4 +55,14 @@ def validacaoVardadeiraOUFalsaParaBD(regressaoLog, svm, mlp):
         return 'TRUE'
     else:
         return 'FAKE'
+
+def tamanho(noticia):
+    if len(noticia.split()) < 100:
+        return False
+    return True
+
+def senhasDiferentes(senha, senhaRepete):
+    if senha == senhaRepete:
+        return True
+    return False
     
