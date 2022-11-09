@@ -224,10 +224,10 @@ def analisando():
     noticia = request.form["areaNoticia"] 
     if tamanho(noticia) ==False:
         msg='notícia com menos de 100 palavras'
-        return render_template('home.html', msg=msg)
+        return render_template('home.html', msg=msg, usuario=session.get('nome'))
     if idioma(noticia):
         msg='notícia não está em língua portuguesa'
-        return render_template('home.html', msg=msg)
+        return render_template('home.html', msg=msg, usuario=session.get('nome'))
 
     # Fazendo previsão do texto 
     previsaoRegressaoLogistica= predicaoRegressãoLogistica(noticia)

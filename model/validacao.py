@@ -26,22 +26,22 @@ def validaçãoNome(nome):
 
 def validacaoVardadeiraOUFalsa(regressaoLog, svm, mlp):
     if regressaoLog == 'TRUE' and  svm == 'TRUE' and mlp == 'TRUE':
-        return 'Todos os 3 algoritmos indentificarão a notícia como verdadeira, mas faça uma pesquisa antes de divulgar ela'
+        return 'Nossos algoritmos indentificaram a noticia como verdedeira, faça uma pesquisa antes de á divulgar!'
     elif regressaoLog == 'TRUE' and  svm == 'TRUE' and mlp == 'FAKE':
-        return '2 dos 3 (Regressão logística e SVM )algoritmos indentificarão a notícia como verdadeira, mas faça uma pesquisa antes de divulgar ela'
+        return '2 dos 3 algoritmos (Regressão logística e SVM ) indentificaram a noticia como verdedeira, faça uma pesquisa antes de á divulgar!'
     elif regressaoLog == 'TRUE' and  svm == 'FAKE' and mlp == 'TRUE':
-        return '2 dos 3 (Regressão Logística e MLP) algoritmos indentificarão a notícia como verdadeira, mas faça uma pesquisa antes de divulgar ela'
+        return '2 dos 3 algoritmos (Regressão Logística e MLP) indentificaram a noticia como verdedeira, faça uma pesquisa antes de á divulgar!'
     elif regressaoLog == 'FAKE' and  svm == 'TRUE' and mlp == 'TRUE':
-        return '2 dos 3 algoritmos (MLP e SVM) indentificarão a notícia como verdadeira, mas faça uma pesquisa antes de divulgar ela'
+        return '2 dos 3 algoritmos (MLP e SVM) indentificaram a notícia como verdadeira, faça uma pesquisa antes de á divulgar!'
     #Lógica para as falsas
     elif regressaoLog == 'FAKE' and  svm == 'FAKE' and mlp == 'FAKE':
-        return 'Todos os 3 algoritmos indentificarão a notícia como falsa, mas faça uma pesquisa antes de divulgar ela'
+        return 'Nossos algoritmos indentificaram a noticia como uma possivel fakenews, faça uma pesquisa antes de á divulgar!'
     elif regressaoLog == 'FAKE' and  svm == 'FAKE' and mlp == 'TRUE':
-        return '2 dos 3 algoritmos (Regressção logística e SVM ) indentificarão a notícia como falsa, mas faça uma pesquisa antes de divulgar ela'
+        return '2 dos 3 (Regressção logística e SVM ) algoritmos indentificarão a noticia como uma possivel fakenews, faça uma pesquisa antes de á divulgar!'
     elif regressaoLog == 'FAKE' and  svm == 'TRUE' and mlp == 'FAKE':
-        return '2 dos 3 algoritmos (Regressão logística e MLP) indentificarão a notícia como falsa, mas faça uma pesquisa antes de divulgar ela'
+        return '2 dos 3 (Regressão logística e MLP) algoritmos indentificarão a noticia como uma possivel fakenews, faça uma pesquisa antes de á divulgar!'
     else:
-        return '2 dos 3 algoritmos (SVM e MLP) indentificarão a notícia como falsa, mas faça uma pesquisa antes de divulgar ela'
+        return '2 dos 3 algoritmos (SVM e MLP) indentificarão a notícia como falsa, faça uma pesquisa antes de á divulgar!'
    
 
 def validacaoVardadeiraOUFalsaParaBD(regressaoLog, svm, mlp):
