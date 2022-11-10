@@ -72,7 +72,7 @@
     
   <div class="col d-flex justify-content-center ">
     <div class="card" style="margin-right: 3%; margin-top: 10%;">
-      <div class="card-header" style="text-align: center; background-color:#4285F4">
+      <div class="card-header" style="text-align: center; background-color:#4285F4; color: white;"> 
       Alterar a senha
       </div>
       <div class="card-body">
@@ -82,7 +82,7 @@
        
           Digite o e-mail cadastrado:<input type="email" id="emailCadastrado" name="emailCadastrado" /><br>
           
-          <input type="submit" name="senhaAlteradaCadastrada" value="Alterar e-mail" /><br>
+          <input type="submit" name="senhaAlteradaCadastrada" value="Enviar e-mail para trocar a senha" /><br>
           <script type="text/javascript" src="{{url_for('static', filename='javacript/esqueceu_senha.js')}}"></script>
       </form>
       </div>
@@ -98,4 +98,16 @@
     </script>
     {%endif %}
 </body>
+
+<footer>
+
+  <div class="p-3 mb-1 bg-primary text-white" >
+    <p>Criado por :</p>
+    <p>Mathues barnabe;
+      Guilherme Vieira:
+      Gianluca Campanna.
+    </p>
+
+</footer>
+
 </html>
