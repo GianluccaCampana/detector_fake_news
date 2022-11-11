@@ -20,7 +20,7 @@ from model.bd import cadastrado
 from model.bd import loginBD
 from model.bd import alterarEmail
 from model.bd import alteraSenha
-from model.bd import deletar
+from model.bd import deletarConta
 from model.bd import historicoBD
 from model.bd import salvandoNoticia
 from model.bd import esqueceuSenha
@@ -126,6 +126,7 @@ def alterar_email():
 
 @app.route("/alterarSenha", methods=['POST', 'GET'])
 def alterar_senha():
+   
     if(session.get('loggedin') == False):
         return render_template('home.html')
     #criando variáveis pelo form
@@ -139,9 +140,12 @@ def alterar_senha():
             if(alteraSenha(emailSession,  emailSenha, senhaSession, senhaAtual, senhaNova)):
                 msg = 'Senha alterada com sucesso'            
                 return render_template('alterar_senha.html', msg=msg, usuario=session.get('nome'))
+            elif validacaoSenha(senhaNova)==False:
+                msg = 'Senha não atende os requisitos mínimos'            
+                return render_template('alterar_senha.html', msg=msg, usuario=session.get('nome'))
             else:
                 msg = 'Senha ou E-mail não correspondente'
-                return render_template('alterar_senha.html', msg=msg, usuario=session.get('nome'))     
+                return render_template('alterar_senha.html', msg=msg, usuario=session.get('nome'))    
     return render_template("alterar_senha.html", usuario=session.get('nome')) 
 
 @app.route("/deletar", methods=['POST', 'GET'])
@@ -154,11 +158,11 @@ def deletar():
         senhaSession = session.get('senha')
         email = request.form['emailDel'] 
         senha = request.form['senhaDel']
-        if deletar(emailSession, email, senhaSession, senha): # se existir           
+        if deletarConta(emailSession, email, senhaSession, senha): # se existir           
             msg = 'Conta deletada com sucesso'            
             return render_template('home.html', msg=msg, usuario=session.get('nome'))
         else:          
-            msg = 'Dados incorretos'
+            msg = 'Senha ou E-mail não correspondente'
             return render_template("deletar.html", msg=msg, usuario=session.get('nome')) 
     return render_template("deletar.html", usuario=session.get('nome'))    
    

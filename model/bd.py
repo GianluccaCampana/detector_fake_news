@@ -76,12 +76,13 @@ def alterarEmail(emailSession, emailAtual, emailNovo):
         return False
 
 def alteraSenha(emailSession,  emailSenha, senhaSession, senhaAtual, senhaNova):
-    if emailSession == emailSenha and senhaSession == senhaAtual: #verificando se o e-mail e a senha da conta em são os mesmos que foram digiados
-        if validacaoSenha(senhaNova) == False:
-            return False
+    senhaCriptografada = criptografar(senhaAtual)
+    senhaNovaCriptografada = criptografar(senhaAtual)
+    if emailSession == emailSenha and senhaSession == senhaCriptografada: #verificando se o e-mail e a senha da conta em são os mesmos que foram digiados
+       
         #Conectando ao banco
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('UPDATE usuario SET senha = % s WHERE email= % s AND senha = % s',(senhaNova, emailSenha, senhaAtual, ))
+        cursor.execute('UPDATE usuario SET senha = % s WHERE email= % s AND senha = % s',(senhaNovaCriptografada, emailSenha, senhaAtual, ))
         mysql.connection.commit() #Registra o Update
         session['senha'] = senhaNova #atualizando a sessão
         cursor.close() #fechando conexão
@@ -99,12 +100,15 @@ def esqueceuSenha(email, senhaNova):
     cursor.close() #fechando conexão
     return True
 
-def deletar(emailSession, email, senhaSession, senha):
-    if emailSession == email and senhaSession == senha: #verificando se o e-mail e a senha da conta em são os mesmos que foram digiados
+def deletarConta(emailSession, email, senhaSession, senha):
+    senhaCriptografada = criptografar(senha)
+    id_usuario = session.get('id')
+    if emailSession == email and senhaSession == senhaCriptografada: #verificando se o e-mail e a senha da conta em são os mesmos que foram digiados
         #Conectando ao banco
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #exluindo registro 
-        cursor.execute('DELETE FROM usuario WHERE email = % s AND senha  = % s',(email, senha, ))
+        cursor.execute('DELETE FROM noticia WHERE id_usuario = % s ',(id_usuario, ))
+        cursor.execute('DELETE FROM usuario WHERE email = % s AND senha  = % s',(email, senhaCriptografada, ))
         mysql.connection.commit() #Registra o DELETE
         cursor.close() #fechando conexão
         #finalizando sessão
