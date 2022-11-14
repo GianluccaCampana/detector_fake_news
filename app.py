@@ -42,19 +42,19 @@ import MySQLdb.cursors
 
 app = Flask(__name__)
  
+app.config['MYSQL_HOST'] = 'us-cdbr-east-06.cleardb.net'
+app.config['MYSQL_USER'] = 'ba97e4059cf9ff'
+app.config['MYSQL_PASSWORD'] = '4bdd97fc'
+app.config['MYSQL_DB'] = 'heroku_a535fed66206244'
 
-#dados do banco
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'detectorFakeNews'
+mysql = MySQL(app)
 
 app.secret_key = 'criar_Uma_Chave'
 
 
 
 
-mysql = MySQL(app)
+
 
 @app.route("/", methods=['POST', 'GET'])
 def home():  

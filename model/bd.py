@@ -11,15 +11,19 @@ from model.criptografia import  criptografar
 
 app = Flask(__name__)
 
-
 #dados do banco
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'detectorFakeNews'
+app.config['MYSQL_HOST'] = 'us-cdbr-east-06.cleardb.net'
+app.config['MYSQL_USER'] = 'ba97e4059cf9ff'
+app.config['MYSQL_PASSWORD'] = '4bdd97fc'
+app.config['MYSQL_DB'] = 'heroku_a535fed66206244'
+
+
+
 
 
 mysql = MySQL(app)
+
+
 
 
 def verificaCadastro(email):
@@ -133,7 +137,7 @@ def salvandoNoticia(noticia, previsao):
     #Conectando ao banco
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     #Salvando no banco
-    cursor.execute('INSERT INTO noticia(id_usuario, noticia, resultado) VALUES (% s, % s, % s) ORDER BY data_analise desc', (session.get('id'), noticia, previsao, )) 
+    cursor.execute('INSERT INTO noticia(id_usuario, noticia, resultado) VALUES (% s, % s, % s) ', (session.get('id'), noticia, previsao, )) 
     mysql.connection.commit() #gravando a informação no banco     
     cursor.close() #fechar conexão com o banco
 
