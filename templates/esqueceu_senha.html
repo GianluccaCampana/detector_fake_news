@@ -83,8 +83,12 @@
           Digite o e-mail cadastrado:<input type="email" id="emailCadastrado" name="emailCadastrado" /><br>
           
           <input type="submit" name="senhaAlteradaCadastrada" value="Enviar e-mail para trocar a senha" /><br>
+
           <script type="text/javascript" src="{{url_for('static', filename='javacript/esqueceu_senha.js')}}"></script>
       </form>
+
+      <a href="{{url_for('home')}}"><input type="submit" value="Página Inicial" /></a>  
+
       </div>
     </div> 
     
@@ -97,6 +101,8 @@
       alert("As instruções para redefinir sua senha foram enviadas ao seu email, verifique por favor.")
     </script>
     {%endif %}
+  </div>  
+  
 </body>
 
 <footer>
@@ -109,5 +115,6 @@
     </p>
 
 </footer>
+
 
 </html>

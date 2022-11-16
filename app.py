@@ -85,7 +85,7 @@ def cadastro():
             cadastrado(nome, email, senha)
             msg = 'Conta registrada'          
             return render_template('home.html', msg=msg)      
-    return render_template('home.html', msg=msg) 
+    return render_template('home.html', msgCadastro=msg) 
     
 @app.route("/login", methods=['POST', 'GET'])
 def login():
