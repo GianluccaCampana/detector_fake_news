@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, session, request, redirect, url_for
 # render_template renderizar html,
 # session criar sessão
@@ -250,6 +251,10 @@ def analisando():
    
    
     return render_template('home.html', msg= msg, resultado = salvarResultado,  usuario=session.get('nome'))
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
 
 
