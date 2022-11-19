@@ -53,6 +53,8 @@ mysql = MySQL(app)
 app.secret_key = 'criar_Uma_Chave'
 
 
+if __name__ == "__main__":
+    app.run()
 
 
 
@@ -252,9 +254,6 @@ def analisando():
    
     return render_template('home.html', msg= msg, resultado = salvarResultado,  usuario=session.get('nome'))
 
-if __name__ == "__main__":
-    
-    app.run()
 
 
 
