@@ -84,7 +84,7 @@
         <div class="card-body">
           <h3>Instruções</h3>
           <p>Para detectar a noticia corretamente, a noticia deve estar em <b>lingua portuguesa</b>
-          e conter no minimo <b>100 palavras</b>.</p>
+          e conter no mínimo <b>100 palavras</b>.</p>
         </div>
 
         <div class="card-body">
@@ -103,8 +103,8 @@
         </div>
         <div class="card-body">
           <h3>Algoritimos Utilizados</h3>
-          <p>Para realizar a decteção nos utilazamos de 3 algoritimos, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">Regreção Logistica</a>,
-          <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html">SVC</a> e <a href="https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html"> MLP</a>.</p>
+          <p>Para realizar a decteção nos utilazamos de 3 algoritimos, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">Regressão Logística</a>,
+          <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html">SVM</a> e <a href="https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html"> MLP</a>.</p>
         </div>
 
       </div>
@@ -178,9 +178,10 @@
             
             <input type="submit" value="Cadastrar" /><br>           
             <script type="text/javascript" src="{{url_for('static', filename='javacript/cadastro.js')}}"></script>
+            {{msgCadastro}}
         </form>
         
-        {{msgCadastro}}
+        
   
         </div>
       </div>
@@ -198,11 +199,12 @@
             E-mail: <input type="email" name="emailLogin" required/><br>
             Senha: <input type="password" name="senhaLogin" required/><br>
             <input type="submit" name="login" value="Logar">
-            {{msg}}
+            
 
         </form> 
         <a href="{{url_for('esqueceu_senha')}}"><input type="submit" value="Esqueceu senha" /></a>  
         </form>
+        {{msg}}
         </div>
       </div>
     </div>
